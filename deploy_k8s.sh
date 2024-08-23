@@ -54,18 +54,18 @@ echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.
  >/dev/null 2>&1
 
 echo "[TASK 9] Add K8s repository"
-if [[ $# -gt 3 ]]; then
-        curl -x $4 -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg >/dev/null 2>&1
-else
-        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg >/dev/null 2>&1
-fi
+#if [[ $# -gt 3 ]]; then
+#        curl -x $4 -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg >/dev/null 2>&1
+#else
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg >/dev/null 2>&1
+#fi
 
 echo "[TASK 10] Add K8s binaries"
-apt-get install -y kubelet=1.29.1-1.1 kubeadm=1.29.1-1.1 kubectl=1.29.1-1.1
+apt-get install -y kubelet=1.30.1-1.1 kubeadm=1.30.1-1.1 kubectl=1.30.1-1.1
 apt-mark hold kubelet kubeadm kubectl
 
 echo "[TASK 11] Init K8s cluster"
-kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.29.1
+#kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.30.1
 
 echo "[TASK 12] Install Cilium k8s's network plugin"
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
